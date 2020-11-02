@@ -6,17 +6,22 @@ from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
 	"""Serializer for the user object"""
-	password = serializers.CharField(
+	"""password = serializers.CharField(
 		style={'input_type': 'password'},
 		trim_whitespace=False,
-		write_only=True
-	)
+		write_only=True,
+		min_length=5
+	)"""
 
 	class Meta:
 		model = get_user_model()
 		fields = ('email', 'password', 'name')
 		extra_kwargs = {
-		'password': {'write_only': True, 'min_length': 5, 'input_type': 'password'}
+			'password': {
+				'write_only': True, 
+				'min_length': 5, 
+				'style': {'input_type': 'password'}
+			}
 		}
 
 	def create(self, validated_data):
